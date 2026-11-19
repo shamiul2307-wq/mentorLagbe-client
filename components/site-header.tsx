@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation"
 import { Menu } from "lucide-react"
 
 import { BrandMark } from "@/components/brand-mark"
-import { Button } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -68,21 +68,24 @@ export function SiteHeader() {
         </NavigationMenu>
 
         <div className="hidden items-center gap-3 md:flex">
-          <Button
-            render={<Link href="/sign-in" />}
-            nativeButton={false}
-            variant="link"
-            className="px-0 text-sm font-medium text-brand no-underline hover:text-brand/80 hover:no-underline"
+          <Link
+            href="/sign-in"
+            className={cn(
+              buttonVariants({ variant: "link" }),
+              "px-0 text-sm font-medium text-brand no-underline hover:text-brand/80 hover:no-underline"
+            )}
           >
             Sign in
-          </Button>
-          <Button
-            render={<Link href="/sign-up" />}
-            nativeButton={false}
-            className="h-10 rounded-lg bg-brand px-5 text-sm font-medium text-brand-foreground shadow-sm hover:bg-brand/90"
+          </Link>
+          <Link
+            href="/sign-up"
+            className={cn(
+              buttonVariants(),
+              "h-10 rounded-lg bg-brand px-5 text-sm font-medium text-brand-foreground shadow-sm hover:bg-brand/90"
+            )}
           >
             Sign up
-          </Button>
+          </Link>
         </div>
 
         <Sheet>
