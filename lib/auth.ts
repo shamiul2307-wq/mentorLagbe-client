@@ -1,23 +1,47 @@
-import { betterAuth } from "better-auth";
+
+
+import dns from "node:dns";
 import { MongoClient } from "mongodb";
+import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "@better-auth/mongo-adapter";
 
-const client = new MongoClient("mongodb://localhost:27017/database");
+dns.setServers(["8.8.8.8", "8.8.4.4"]);
+
+const mongoUrl = process.env.BETTER_AUTH_DB_URL;
+
+if (!mongoUrl) {
+  throw new Error("BETTER_AUTH_DB_URL is missing");
+}
+
+const client = new MongoClient(mongoUrl, {
+  serverSelectionTimeoutMS: 10000,
+});
+
 const db = client.db("MentorLagde");
 
 export const auth = betterAuth({
-     
-     emailAndPassword: { 
-    enabled: true, 
+  baseURL: process.env.BETTER_AUTH_URL,
+  secret: process.env.BETTER_AUTH_SECRET,
+
+  emailAndPassword: {
+    enabled: true,
   },
-  socialProviders: {
-        google: { 
-            clientId: process.env.GOOGLE_CLIENT_ID as string, 
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET as string, 
-        }, 
+
+  user: {
+    additionalFields: {
+      role: {
+        type: "string",
+        defaultValue: "student",
+        required: true,
+        input: false,
+      },
+      phone: {
+        type: "string",
+        required: false,
+        input: true,
+      },
     },
-  database: mongodbAdapter(db, {
-    client,
-  }),
+  },
+
+  database: mongodbAdapter(db, { client }),
 });
- 

@@ -1,8 +1,36 @@
+ 
+"use client";
+
+import { AuthForm } from "@/components/auth-form";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
+
 export default function SignUpPage() {
+  const router = useRouter();
+
+  const handleSignUp = async (data: Record<string, string>) => {
+    const { error } = await authClient.signUp.email({
+      name: data.name,
+      email: data.email,
+      password: data.password,
+      role: data.role as "student" | "tutor",
+    });
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    router.replace("/");
+    router.refresh();
+  };
+
   return (
-    <main className="mx-auto flex min-h-svh max-w-6xl flex-col gap-2 px-6 py-16">
-      <h1 className="text-2xl font-semibold tracking-tight">Sign up</h1>
-      <p className="text-muted-foreground">Create your MentorLagde account.</p>
-    </main>
-  )
+    <AuthForm
+      mode="sign-up"
+      onSubmit={handleSignUp}
+    />
+  );
 }
+
+ 
+

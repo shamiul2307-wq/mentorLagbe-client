@@ -1,8 +1,31 @@
+
+"use client";
+
+import { AuthForm } from "@/components/auth-form";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
+
 export default function SignInPage() {
+  const router = useRouter();
+
+  const handleSignIn = async (data: Record<string, string>) => {
+    const { error } = await authClient.signIn.email({
+      email: data.email,
+      password: data.password,
+    });
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    router.replace("/");
+    router.refresh();
+  };
+
   return (
-    <main className="mx-auto flex min-h-svh max-w-6xl flex-col gap-2 px-6 py-16">
-      <h1 className="text-2xl font-semibold tracking-tight">Sign in</h1>
-      <p className="text-muted-foreground">Welcome back to MentorLagde.</p>
-    </main>
-  )
+    <AuthForm
+      mode="sign-in"
+      onSubmit={handleSignIn}
+    />
+  );
 }
