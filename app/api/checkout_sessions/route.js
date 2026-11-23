@@ -1,10 +1,11 @@
 import { NextResponse } from 'next/server'
 import { headers } from 'next/headers'
-import { stripe } from "@/lib/stripe";
+import { getStripe } from "@/lib/stripe";
   
 
 export async function POST() {
   try {
+    const stripe = getStripe();
     const headersList = await headers()
     const origin = headersList.get('origin')
 
