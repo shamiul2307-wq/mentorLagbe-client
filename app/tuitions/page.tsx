@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { getTuitions } from "@/lib/api";
 import type { Tuition } from "@/types/tuition";
-
+export const dynamic = "force-dynamic";
 export default async function TuitionsPage() {
   let tuitions: Tuition[] = [];
   let errorMessage = "";

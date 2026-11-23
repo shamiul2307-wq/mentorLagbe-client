@@ -1,4 +1,5 @@
  
+ 
 "use client";
 
 import { AuthForm } from "@/components/auth-form";
@@ -13,7 +14,6 @@ export default function SignUpPage() {
       name: data.name,
       email: data.email,
       password: data.password,
-      role: data.role as "student" | "tutor",
     });
 
     if (error) {
@@ -31,6 +31,4 @@ export default function SignUpPage() {
     />
   );
 }
-
- 
 

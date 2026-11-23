@@ -125,7 +125,10 @@ export default async function PaymentPage({
             </div>
 
             <div className="mt-7">
-              <PaymentButton tuitionId={tuition._id} />
+              <PaymentButton
+  tuitionId={tuition._id}
+  studentId={session.user.id}
+/>
             </div>
 
             <p className="mt-4 text-center text-xs text-gray-500">
